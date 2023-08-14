@@ -3,6 +3,7 @@ package com.blog.blog.exceptions;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -30,6 +31,14 @@ public class GlobalExceptionHandler {
                     errorMap.put(fieldName, message);
                 });;
                 return  new ResponseEntity<Map<String,String>>(errorMap,HttpStatus.BAD_REQUEST);
+
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ApiResponse> resourceNotFoundExceptionHandler(ResourceNotFoundException ex){
+        String message = ex.getMessage();
+        ApiResponse res = new ApiResponse(message, false);
+        return new ResponseEntity<ApiResponse>(res, HttpStatus.NOT_FOUND);
 
     }
     
